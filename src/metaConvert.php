@@ -2,27 +2,30 @@
 
 namespace metaConvert;
 
+require_once plugin_dir_path(__FILE__) . '/settings.php';
+
 function webp_converter_convert_attachments_to_webp($metadata, $attachment_id)
 {
     $file_path = get_attached_file($attachment_id);
     $image = imagecreatefromstring(file_get_contents($file_path));
-
+    $uploadsBoth = get_option('enable_both');
     if ($image !== false) {
         $webp_file_path = preg_replace('/\.(png|jpg|jpeg)$/', '.webp', $file_path);
         if (imagewebp($image, $webp_file_path)) {
             $metadata['file'] = basename($webp_file_path);
             $metadata['sizes'] = array();
             //puting the if here for the settings
-            // if()
-            // Upload the original image alongside WebP
-            $original_file_path = $file_path;
-            $original_file_name = basename($original_file_path);
-            $original_upload = array(
-                'file' => $original_file_path,
-                'url' => wp_get_attachment_url($attachment_id),
-                'type' => get_post_mime_type($attachment_id),
-            );
-            wp_handle_upload($original_upload, array('test_form' => false));
+            // if($uploadsBoth !== false){
+            //     // Upload the original image alongside WebP
+            //     $original_file_path = $file_path;
+            //     $original_file_name = basename($original_file_path);
+            //     $original_upload = array(
+            //         'file' => $original_file_path,
+            //         'url' => wp_get_attachment_url($attachment_id),
+            //         'type' => get_post_mime_type($attachment_id),
+            //     );
+            //     wp_handle_upload($original_upload, array('test_form' => false));
+            // }
 
         } else {
             // Conversion to WebP failed

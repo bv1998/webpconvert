@@ -2,30 +2,32 @@
 
 namespace imageConvert;
 
-require_once plugin_dir_path(__FILE__) . '/src/settings.php';
+require_once plugin_dir_path(__FILE__) . '/settings.php';
 
 function webp_converter_convert_to_webp($upload)
 {
     $file_path = $upload['file'];
+    debug_to_console($upload);
     $image = imagecreatefromstring(file_get_contents($file_path));
+    $uploadsBoth = get_option('enable_both');
 
     if ($image !== false) {
         $webp_file_path = preg_replace('/\.(png|jpg|jpeg|tiff)$/', '.webp', $file_path);
         if (imagewebp($image, $webp_file_path)) {
             $upload['file'] = $webp_file_path;
             $upload['type'] = 'image/webp';
-            //puting the if here for the settin
-            // if()
-            // Upload the original image alongside WebP
-            $original_file_path = $file_path;
-            $original_file_name = basename($original_file_path);
-            $original_upload = array(
-                'file' => $original_file_path,
-                'url' => $upload['url'],
-                'type' => $upload['type'],
-            );
-            wp_handle_upload($original_upload, array('test_form' => false));
-
+            // //puting the if here for the settin
+            // if($uploadsBoth !== false){
+            //     // Upload the original image alongside WebP
+            //     $original_file_path = $file_path;
+            //     $original_file_name = basename($original_file_path);
+            //     $original_upload = array(
+            //         'file' => $original_file_path,
+            //         'url' => $upload['url'],
+            //         'type' => $upload['type'],
+            //     );
+            //     wp_handle_upload($original_upload, array('test_form' => false));
+            // }
         } else {
             // Conversion to WebP failed
             error_log('Failed to convert image to WebP: ' . $file_path);
@@ -36,4 +38,15 @@ function webp_converter_convert_to_webp($upload)
     }
 
     return $upload;
+
+}
+
+function debug_to_console($data)
+{
+    $output = $data;
+    if (is_array($output)) {
+        $output = implode(',', $output);
+    }
+
+    echo "<script>console.log('Debug Objects: " . $output . "' );</script>";
 }
