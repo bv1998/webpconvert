@@ -12,7 +12,8 @@ function webp_converter_convert_attachments_to_webp($metadata, $attachment_id)
         if (imagewebp($image, $webp_file_path)) {
             $metadata['file'] = basename($webp_file_path);
             $metadata['sizes'] = array();
-
+            //puting the if here for the settings
+            // if()
             // Upload the original image alongside WebP
             $original_file_path = $file_path;
             $original_file_name = basename($original_file_path);
