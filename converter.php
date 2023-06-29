@@ -2,7 +2,7 @@
 /**
  * Plugin Name: WebP Converter
  * Description: Converts media to WebP format upon upload.
- * Version: 1.1.0
+ * Version: 1.0.0
  * Author: Bryan Vernon
  */
 
@@ -30,8 +30,8 @@ function webp_converter_deactivate()
     // Deactivation code goes here
 }
 // if($uploadOrigin === true){
-add_filter('wp_handle_upload', 'originalPhoto\\passOriginal');
-add_filter('wp_generate_attachment_metadata', 'originalPhoto\\original_metadata', 10, 2);
+add_filter('wp_handle_upload', 'originalPhoto\\passOriginal', 2, 1);
+add_filter('wp_generate_attachment_metadata', 'originalPhoto\\original_metadata', 2, 2);
 // }
-add_filter('wp_handle_upload', 'imageConvert\\webp_converter_convert_to_webp');
+add_filter('wp_handle_upload', 'imageConvert\\webp_converter_convert_to_webp', 10, 1);
 add_filter('wp_generate_attachment_metadata', 'metaConvert\\webp_converter_convert_attachments_to_webp', 10, 2);
