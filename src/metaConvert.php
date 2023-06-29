@@ -2,13 +2,11 @@
 
 namespace metaConvert;
 
-require_once plugin_dir_path(__FILE__) . '/settings.php';
-
 function webp_converter_convert_attachments_to_webp($metadata, $attachment_id)
 {
     $file_path = get_attached_file($attachment_id);
     $image = imagecreatefromstring(file_get_contents($file_path));
-    $uploadsBoth = get_option('enable_both');
+    $photosBoth = get_option('webp_enable_both');
     if ($image !== false) {
         $webp_file_path = preg_replace('/\.(png|jpg|jpeg)$/', '.webp', $file_path);
         if (imagewebp($image, $webp_file_path)) {

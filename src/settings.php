@@ -23,25 +23,16 @@ function plugin_settings_init()
     );
 
     add_settings_field(
-        'enable_both',
+        'webp_enable_both',
         'Upload Original',
         'enable_both_callback',
         'plugin_settings',
         'plugin_section'
     );
 
-    add_settings_field(
-        'enable_importer',
-        'Convert to WebP while using WP Importer',
-        'enable_import_callback',
-        'plugin_settings',
-        'plugin_section'
-    );
-
     register_setting(
         'plugin_settings',
-        'enable_both',
-        'enable_importer'
+        'webp_enable_both'
     );
 }
 
@@ -52,13 +43,8 @@ function plugin_section_callback()
 
 function enable_both_callback()
 {
-    $enable_both = get_option('enable_both');
-    echo '<label><input type="checkbox" name="enable_both" value="1" ' . checked(1, $enable_both, false) . '> Enable the upload of Original along with the WebP Version</label>';
-}
-function enable_import_callback()
-{
-    $enable_importer = get_option('enable_importer');
-    echo '<label><input type="checkbox" name="enable_importer" value="1" ' . checked(1, $enable_importer, false) . '> Enable the conversion and upload of WebP files when using an importer tool such as ASi importer or native WP Import</label>';
+    $webp_enable_both = get_option('webp_enable_both');
+    echo '<label><input type="checkbox" name="webp_enable_both" value="1" ' . checked(1, $webp_enable_both, false) . '> Enable the upload of Original along with the WebP Version</label>';
 }
 
 add_action('admin_menu', 'plugin_settings_add_page');
