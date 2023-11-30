@@ -5,9 +5,10 @@ namespace metaConvert;
 function webp_converter_convert_attachments_to_webp($metadata, $attachment_id)
 {
     $file_path = get_attached_file($attachment_id);
+    $file_type = get_post_mime_type($atachment_id);
     $image = imagecreatefromstring(file_get_contents($file_path));
     $photosBoth = get_option('webp_enable_both');
-    if ($image !== false) {
+    if ($image !== false && in_array($file_type, CONVT_TYPES)) {
         $webp_file_path = preg_replace('/\.(png|jpg|jpeg)$/', '.webp', $file_path);
         if (imagewebp($image, $webp_file_path)) {
             $metadata['file'] = basename($webp_file_path);

@@ -28,5 +28,21 @@ function webp_converter_deactivate()
     // Deactivation code goes here
 }
 
+// const accepted_file_type = array(
+//     'jpg',
+//     'jpeg',
+//     'png',
+//     'webp',
+//     'tiff'
+// );
+
+define('CONVT_TYPES', array(
+    'image/jpg',
+    'image/jpeg',
+    'image/png',
+    'image/webp',
+    'image/tiff'
+));
+
 add_filter('wp_handle_upload', 'imageConvert\\webp_converter_convert_to_webp', 10, 1);
 add_filter('wp_generate_attachment_metadata', 'metaConvert\\webp_converter_convert_attachments_to_webp', 10, 2);
